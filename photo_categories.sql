@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 12/03/2026 04:36:32
+ Date: 12/03/2026 05:31:14
 */
 
 SET NAMES utf8mb4;
@@ -116,11 +116,11 @@ CREATE TABLE `sites`  (
   `height` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `alamat` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `longtude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `pekerjaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `mitra` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `atp_date` datetime NULL DEFAULT NULL,
+  `atp_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `executive_general_manager` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `manager_construction` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `gm_area_office` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -130,11 +130,13 @@ CREATE TABLE `sites`  (
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sites
 -- ----------------------------
 INSERT INTO `sites` VALUES (1, '24TS09B310', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sites` VALUES (2, 'project id', 'name po', 'name tenant', 'site id', '2026-03-12', '2026-03-13', 'tenatn', 'type', 'height', 'alamata', 'lat', NULL, 'pekerjaan', 'area', 'mitra', NULL, 'egm', 'mc', 'gm area', 'mcd', 'pm', 'waspang', NULL, NULL);
+INSERT INTO `sites` VALUES (3, 'project id', ' name po', 'name tenant', 'site id', '2026-03-12', '2026-03-13', 'tenant', 'type', 'height', 'alamat', 'latitude', 'longitude', 'pekerjaan', 'area', 'mitra', NULL, 'egm', 'mc', 'gm area', 'manager const', 'pm ', 'waspang', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
