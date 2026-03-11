@@ -83,9 +83,10 @@ class Tower extends CI_Controller {
 
 		$res = $this->db->insert('sites', $data);
 		if ($res) {
-			$this->session->set_flashdata('message', '<div class="alert alert-success  text-center" 												role="alert">
+			$this->session->set_flashdata('message',
+			'<div class="alert alert-success  text-center alert-dismissible fade show" 												role="alert">
 							  Data Berhasil Ditambahkan
-							</div>');
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 			redirect('tower/master');
 		} else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger  text-center" 												role="alert">
