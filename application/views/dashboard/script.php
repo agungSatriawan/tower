@@ -18,9 +18,11 @@
  <script src="https://cdn.datatables.net/2.3.7/js/dataTables.min.js"></script>
  <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.min.js"></script>
  <script src="https://cdn.datatables.net/responsive/3.0.8/js/dataTables.responsive.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <!-- main JS
 		============================================ -->
  <script src="<?= base_url('assets/') ?>js/main.js?time=<?= time() ?>"></script>
+ <script src="<?= base_url('assets/') ?>js/custom.js?time=<?= time() ?>"></script>
  </body>
 
  </html>

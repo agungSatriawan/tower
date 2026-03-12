@@ -46,4 +46,5 @@
   <!-- responsive CSS
 		============================================ -->
   <link rel="stylesheet" href="<?= base_url('assets/') ?>css/responsive.css?time=<?= time() ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/') ?>css/custom.css?time=<?= time() ?>">
 </head>
