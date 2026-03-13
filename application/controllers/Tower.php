@@ -20,6 +20,17 @@ class Tower extends CI_Controller {
 		$this->load->view('dashboard/script');
 	}
 
+	public function update_progress()
+	{
+		$data['loadMaster'] = $this->Model_tower->loadMaster();
+
+		$this->load->view('dashboard/header');
+		$this->load->view('dashboard/sidebar');
+		$this->load->view('dashboard/navbar');
+		$this->load->view('progress/update_progress', $data);
+		$this->load->view('dashboard/footer');
+		$this->load->view('dashboard/script');
+	}
 	public function master(){
 		$data['loadMaster'] = $this->Model_tower->loadMaster();
 	

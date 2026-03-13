@@ -1,5 +1,3 @@
-
-
 <body>
 
 
@@ -28,21 +26,18 @@
                         <li class="active">
                             <a class="has-arrow" href="index.html">
                                 <i class="bi big-icon bi-speedometer2 icon-wrap"></i>
-                                <span class="mini-click-non">Dashboards</span>
+                                <span class="mini-click-non">Dashboard</span>
                             </a>
                             <ul class="submenu-angle" aria-expanded="true">
-                                <li><a title="Main masterData" href="<?= base_url('tower/master')?>"><span class="mini-sub-pro">Master Data</span></a></li>
-                                <li><a title="Analytics" href="index-1.html"><span class="mini-sub-pro">Analytics</span></a></li>
-                                <li><a title="Projects" href="index-2.html"><span class="mini-sub-pro">Projects</span></a></li>
-                                <li><a title="Statistics" href="analytics.html"><span class="mini-sub-pro">Statistics</span></a></li>
-                                <li><a title="Widgets" href="widgets.html"><span class="mini-sub-pro">Widgets</span></a></li>
+                                <li><a title="Main masterData" href="<?= base_url('tower') ?>"><span class="mini-sub-pro">Summary Report</span></a></li>
+                                <li><a title="Main masterData" href="<?= base_url('tower/update_progress') ?>"><span class="mini-sub-pro">Update Progress</span></a></li>
+                                <li><a title="Main masterData" href="<?= base_url('tower/master') ?>"><span class="mini-sub-pro">Master Data</span></a></li>
+
                             </ul>
                         </li>
-                      
+
                     </ul>
                 </nav>
             </div>
         </nav>
     </div>
-
-
