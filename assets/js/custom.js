@@ -1,8 +1,9 @@
 const base_url = window.location.origin;
-$('.row-site').click(function () {
+
+$(document).on('click', '.row-site', function () {
 
     let id = $(this).data('id');
-
+    let pekerjaan = $(this).data('pekerjaan');
     $.ajax({
         url: base_url+'/tower/tower/getSite',
         type: "POST",
@@ -39,10 +40,92 @@ $('.row-site').click(function () {
 
             $('#btn_update').attr('href', base_url + '/tower/update/' + data.id);
             $('#btn_delete').attr('href', base_url + '/tower/delete/' + data.id);
-
+            $('#site_id').val(data.site_id);
+            $('#pekerjaan_id').val(data.pekerjaan);
             $('#siteModal').modal('show');
+            loadCategories(pekerjaan, data.site_id);
+            loadPhotos(data.site_id);
 
         }
+    });
+    function loadCategories(pekerjaan, site_id) {
+
+        $.get(base_url + '/tower/tower/get_categories/' + pekerjaan + '/' + site_id, function (res) {
+
+            $('#photo-grid').html(res);
+            loadPhotos(site_id); // jalankan setelah grid ada
+        });
+
+    }
+    function loadPhotos(site_id) {
+
+        $.ajax({
+
+            url: base_url + '/tower/tower/get_photos/' + site_id,
+            type: "GET",
+            dataType: "json",
+
+            success: function (res) {
+
+                // kosongkan dulu
+                $('.paste-slot img').attr('src', '');
+                $('.paste-slot').removeClass('success');
+
+                res.forEach(function (photo) {
+
+                    let selector =
+                        '.paste-slot[data-category="' + photo.category_id + '"][data-slot="' + photo.slot + '"]';
+
+                    let slot = $(selector);
+
+                    slot.find('img').attr(
+                        'src',
+                        base_url + '/tower/assets/uploads/site_photos/' + photo.file_path
+                    ).show();
+                    slot.find('p').hide();
+                    slot.addClass('success');
+
+                });
+
+            }
+
+        });
+
+    }
+
+    $(document).on('click', '.btn-delete-photo', function (e) {
+
+        e.stopPropagation();
+
+        let slot = $(this).closest('.paste-slot');
+
+        let site_id = $('#site_id').val();
+        let category = slot.data('category');
+        let slot_no = slot.data('slot');
+
+        if (!confirm("Hapus foto ini?")) return;
+
+        $.post(base_url + '/tower/tower/delete_photo', {
+
+            site_id: site_id,
+            category_id: category,
+            slot: slot_no
+
+        }, function (res) {
+
+            let data = JSON.parse(res);
+
+            if (data.status == "success") {
+
+                slot.removeClass('success error');
+
+                slot.find('img').attr('src', '').hide();
+                slot.find('p').show();
+
+            }
+
+        });
+
     });
 
     $('#btn_delete').click(function (e) {
@@ -81,5 +164,102 @@ $('.row-site').click(function () {
             }
         });
     })
+
+});
+
+let currentSlot = null;
+
+// klik slot
+$(document).on('click', '.paste-slot', function () {
+    $('.paste-slot').removeClass('active');
+
+    $(this).addClass('active');
+    currentSlot = $(this);
+
+});
+
+
+// paste image
+document.addEventListener('paste', function (e) {
+
+    if (!currentSlot) return;
+
+    let items = e.clipboardData.items;
+
+    for (let i = 0; i < items.length; i++) {
+
+        if (items[i].type.indexOf("image") !== -1) {
+
+            let file = items[i].getAsFile();
+
+            let reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                let img = currentSlot.find("img");
+
+                img.attr("src", event.target.result);
+                img.show();
+                currentSlot.find("p").hide();
+            }
+
+            reader.readAsDataURL(file);
+            // status uploading
+            currentSlot.removeClass('success error');
+            currentSlot.addClass('uploading');
+            currentSlot.find('.spinner').show();
+
+
+            // upload ajax
+            let formData = new FormData();
+            let site_id = $('#site_id').val();
+            console.log(file);
+            console.log(site_id);
+            console.log(currentSlot.data('category'));
+            console.log(currentSlot.data('slot'));
+            formData.append("image", file);
+            formData.append("site_id", site_id);
+            formData.append("category_id", currentSlot.data('category'));
+            formData.append("slot", currentSlot.data('slot'));
+
+            $.ajax({
+
+                url: base_url + '/tower/tower/upload_photo',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (res) {
+                    currentSlot.removeClass('uploading');
+                    currentSlot.find('.spinner').hide();
+                    let data = JSON.parse(res);
+
+                    if (data.status == "success") {
+
+                        currentSlot.addClass('success');
+
+                    } else {
+
+                        currentSlot.addClass('error');
+
+                    }
+                    console.log("upload success");
+
+                },
+
+                error: function () {
+
+                    currentSlot.removeClass('uploading');
+                    currentSlot.find('.spinner').hide();
+                    currentSlot.addClass('error');
+
+                }
+
+            });
+
+        }
+
+    }
 
 });

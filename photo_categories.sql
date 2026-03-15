@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 12/03/2026 05:31:14
+ Date: 16/03/2026 05:20:44
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `photo_categories`  (
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of photo_categories
@@ -57,6 +57,13 @@ INSERT INTO `photo_categories` VALUES (20, 5, 'PENGUKURAN TEGANGAN TN', '1', NUL
 INSERT INTO `photo_categories` VALUES (21, 5, 'PENGUKURAN TEGANGAN NG', '1', NULL, NULL);
 INSERT INTO `photo_categories` VALUES (22, 5, 'PENGUKURAN TEGANGAN', '7', NULL, NULL);
 INSERT INTO `photo_categories` VALUES (23, 5, 'VERTICALITY', '4', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (24, 6, 'TEAM WITH APD', '2', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (25, 6, 'K3', '2', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (26, 6, 'TOOLS', '4', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (27, 7, 'MK ON SITE', '1', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (28, 7, 'MOS', '3', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (29, 8, 'TOWER VIEW', '2', NULL, NULL);
+INSERT INTO `photo_categories` VALUES (30, 8, 'PERKUATAN', '10', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for photos
@@ -64,18 +71,21 @@ INSERT INTO `photo_categories` VALUES (23, 5, 'VERTICALITY', '4', NULL, NULL);
 DROP TABLE IF EXISTS `photos`;
 CREATE TABLE `photos`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `site_id` int NULL DEFAULT NULL,
+  `site_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `category_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `slot` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of photos
 -- ----------------------------
+INSERT INTO `photos` VALUES (34, 'TGR292', '2', '1', 'siteTGR292_cat2_slot1.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (35, 'ewqewqeq', '24', '1', 'siteewqewqeq_cat24_slot1.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (39, 'TGR292', '3', '1', 'siteTGR292_cat3_slot1.jpg', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for section
@@ -83,21 +93,25 @@ CREATE TABLE `photos`  (
 DROP TABLE IF EXISTS `section`;
 CREATE TABLE `section`  (
   `id` int NOT NULL AUTO_INCREMENT,
+  `pekerjaan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `sheet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of section
 -- ----------------------------
-INSERT INTO `section` VALUES (1, 'SKOM', 'SKOM', NULL, NULL);
-INSERT INTO `section` VALUES (2, 'PEMBESIAN', 'PEMBESIAN SITE', NULL, NULL);
-INSERT INTO `section` VALUES (3, 'PENGECORAN', 'PENGECORAN SITE', NULL, NULL);
-INSERT INTO `section` VALUES (4, 'ERECTION', 'MOS & ERECTION', NULL, NULL);
-INSERT INTO `section` VALUES (5, 'ATP', 'PELAKSANAAN ATP', NULL, NULL);
+INSERT INTO `section` VALUES (1, 'B2S', 'SKOM', 'SKOM', NULL, NULL);
+INSERT INTO `section` VALUES (2, 'B2S', 'PEMBESIAN', 'PEMBESIAN SITE', NULL, NULL);
+INSERT INTO `section` VALUES (3, 'B2S', 'PENGECORAN', 'PENGECORAN SITE', NULL, NULL);
+INSERT INTO `section` VALUES (4, 'B2S', 'ERECTION', 'MOS & ERECTION', NULL, NULL);
+INSERT INTO `section` VALUES (5, 'B2S', 'ATP', 'PELAKSANAAN ATP', NULL, NULL);
+INSERT INTO `section` VALUES (6, 'PERKUATAN', 'TEAM & TOOLS', 'FOTO PENDUKUNG TEAM & TOOLS', NULL, NULL);
+INSERT INTO `section` VALUES (7, 'PERKUATAN', 'MOS', 'PREPERATION & MOS', NULL, NULL);
+INSERT INTO `section` VALUES (8, 'PERKUATAN', 'DOKUMENTASI ATP', 'PELAKSANAAN ATP', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sites
@@ -127,16 +141,16 @@ CREATE TABLE `sites`  (
   `manager_const` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `project_management` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `waspang_area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `progress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sites
 -- ----------------------------
-INSERT INTO `sites` VALUES (1, '24TS09B310', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sites` VALUES (2, 'project id', 'name po', 'name tenant', 'site id', '2026-03-12', '2026-03-13', 'tenatn', 'type', 'height', 'alamata', 'lat', NULL, 'pekerjaan', 'area', 'mitra', NULL, 'egm', 'mc', 'gm area', 'mcd', 'pm', 'waspang', NULL, NULL);
-INSERT INTO `sites` VALUES (3, 'project id', ' name po', 'name tenant', 'site id', '2026-03-12', '2026-03-13', 'tenant', 'type', 'height', 'alamat', 'latitude', 'longitude', 'pekerjaan', 'area', 'mitra', NULL, 'egm', 'mc', 'gm area', 'manager const', 'pm ', 'waspang', NULL, NULL);
+INSERT INTO `sites` VALUES (8, '26TS01B0129', '', 'RANCAKALAPAPANONGAN', 'TGR292', '', '', '', '', '', '', '', '', 'B2S', 'Jabodetabek', '', NULL, '', '', '', '', '', '', NULL, NULL, NULL);
+INSERT INTO `sites` VALUES (14, 'qweqwe', 'ewqewqe', 'ewqewq', 'ewqewqeq', '', '', '', '', '', '', '', '', 'PERKUATAN', '', '', '', '', '', '', '', '', '', NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

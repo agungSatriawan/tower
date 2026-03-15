@@ -6,6 +6,8 @@
   <title>Dashboard V.1 | Nalika - Material Admin Template</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf_token_name" content="<?= $this->security->get_csrf_token_name() ?>">
+  <meta name="csrf_hash" content="<?= $this->security->get_csrf_hash() ?>">
   <!-- favicon
 		============================================ -->
   <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
