@@ -180,8 +180,165 @@ $(document).on('click', '.paste-slot', function () {
 
 
 // paste image
-document.addEventListener('paste', function (e) {
+// document.addEventListener('paste', function (e) {
 
+//     if (!currentSlot) return;
+
+//     let items = e.clipboardData.items;
+
+//     for (let i = 0; i < items.length; i++) {
+
+//         if (items[i].type.indexOf("image") !== -1) {
+
+//             let file = items[i].getAsFile();
+
+//             let reader = new FileReader();
+
+//             reader.onload = function (event) {
+
+//                 let img = currentSlot.find("img");
+
+//                 img.attr("src", event.target.result);
+//                 img.show();
+//                 currentSlot.find("p").hide();
+//             }
+
+//             reader.readAsDataURL(file);
+//             // status uploading
+//             currentSlot.removeClass('success error');
+//             currentSlot.addClass('uploading');
+//             currentSlot.find('.spinner').show();
+
+
+//             // upload ajax
+//             let formData = new FormData();
+//             let site_id = $('#site_id').val();
+//             console.log(file);
+//             console.log(site_id);
+//             console.log(currentSlot.data('category'));
+//             console.log(currentSlot.data('slot'));
+//             formData.append("image", file);
+//             formData.append("site_id", site_id);
+//             formData.append("category_id", currentSlot.data('category'));
+//             formData.append("slot", currentSlot.data('slot'));
+
+//             $.ajax({
+
+//                 url: base_url + '/tower/tower/upload_photo',
+//                 type: "POST",
+//                 data: formData,
+//                 processData: false,
+//                 contentType: false,
+
+//                 success: function (res) {
+//                     currentSlot.removeClass('uploading');
+//                     currentSlot.find('.spinner').hide();
+//                     let data = JSON.parse(res);
+
+//                     if (data.status == "success") {
+
+//                         currentSlot.addClass('success');
+
+//                     } else {
+
+//                         currentSlot.addClass('error');
+
+//                     }
+//                     console.log("upload success");
+
+//                 },
+
+//                 error: function () {
+
+//                     currentSlot.removeClass('uploading');
+//                     currentSlot.find('.spinner').hide();
+//                     currentSlot.addClass('error');
+
+//                 }
+
+//             });
+
+//         }
+
+//     }
+
+// });
+
+function handlePasteImage(file) {
+
+    if (!file || !(file instanceof Blob)) {
+        console.log("Clipboard bukan file image", file);
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function (event) {
+
+        let img = currentSlot.find("img");
+
+        img.attr("src", event.target.result);
+        img.show();
+        currentSlot.find("p").hide();
+
+    }
+
+    reader.readAsDataURL(file);
+
+    currentSlot.removeClass('success error');
+    currentSlot.addClass('uploading');
+    currentSlot.find('.spinner').show();
+
+    let formData = new FormData();
+    let site_id = $('#site_id').val();
+
+    formData.append("image", file);
+    formData.append("site_id", site_id);
+    formData.append("category_id", currentSlot.data('category'));
+    formData.append("slot", currentSlot.data('slot'));
+
+    $.ajax({
+
+        url: base_url + '/tower/tower/upload_photo',
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+
+        success: function (res) {
+
+            currentSlot.removeClass('uploading');
+            currentSlot.find('.spinner').hide();
+
+            let data = JSON.parse(res);
+
+            if (data.status == "success") {
+
+                currentSlot.addClass('success');
+
+            } else {
+
+                currentSlot.addClass('error');
+
+            }
+
+        },
+
+        error: function () {
+
+            currentSlot.removeClass('uploading');
+            currentSlot.find('.spinner').hide();
+            currentSlot.addClass('error');
+
+        }
+
+    });
+
+}
+
+document.addEventListener('paste', function (e) {
+    console.log("CLIPBOARD ITEMS:", e.clipboardData.items);
+    console.log("CLIPBOARD FILES:", e.clipboardData.files);
     if (!currentSlot) return;
 
     let items = e.clipboardData.items;
@@ -191,72 +348,22 @@ document.addEventListener('paste', function (e) {
         if (items[i].type.indexOf("image") !== -1) {
 
             let file = items[i].getAsFile();
+            handlePasteImage(file);
 
-            let reader = new FileReader();
+        }
 
-            reader.onload = function (event) {
+    }
 
-                let img = currentSlot.find("img");
+    // fallback (excel / browser paste)
+    let files = e.clipboardData.files;
 
-                img.attr("src", event.target.result);
-                img.show();
-                currentSlot.find("p").hide();
-            }
+    if (files.length > 0) {
 
-            reader.readAsDataURL(file);
-            // status uploading
-            currentSlot.removeClass('success error');
-            currentSlot.addClass('uploading');
-            currentSlot.find('.spinner').show();
+        let file = files[0];
 
+        if (file.type.indexOf("image") !== -1) {
 
-            // upload ajax
-            let formData = new FormData();
-            let site_id = $('#site_id').val();
-            console.log(file);
-            console.log(site_id);
-            console.log(currentSlot.data('category'));
-            console.log(currentSlot.data('slot'));
-            formData.append("image", file);
-            formData.append("site_id", site_id);
-            formData.append("category_id", currentSlot.data('category'));
-            formData.append("slot", currentSlot.data('slot'));
-
-            $.ajax({
-
-                url: base_url + '/tower/tower/upload_photo',
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-
-                success: function (res) {
-                    currentSlot.removeClass('uploading');
-                    currentSlot.find('.spinner').hide();
-                    let data = JSON.parse(res);
-
-                    if (data.status == "success") {
-
-                        currentSlot.addClass('success');
-
-                    } else {
-
-                        currentSlot.addClass('error');
-
-                    }
-                    console.log("upload success");
-
-                },
-
-                error: function () {
-
-                    currentSlot.removeClass('uploading');
-                    currentSlot.find('.spinner').hide();
-                    currentSlot.addClass('error');
-
-                }
-
-            });
+            handlePasteImage(file);
 
         }
 

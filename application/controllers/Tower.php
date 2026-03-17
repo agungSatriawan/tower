@@ -324,8 +324,22 @@ class Tower extends CI_Controller {
 
 	public function generate_report($site_id)
 	{
+		// ambil data site
+		$site = $this->db
+			->get_where('sites', ['site_id' => $site_id])
+			->row();
+
+		if (!$site) {
+			die('Data site tidak ditemukan');
+		}
+
 		// load template
-		$template = FCPATH . 'assets/templates/template_b2s.xlsx';
+		if ($site->pekerjaan == 'B2S') {
+			$template = FCPATH . 'assets/templates/template_b2s.xlsx';
+		} else {
+			$template = FCPATH . 'assets/templates/template_perkuatan.xlsx';
+		}
+		
 
 		if (!file_exists($template)) {
 			die('Template tidak ditemukan');
@@ -333,7 +347,39 @@ class Tower extends CI_Controller {
 
 		$spreadsheet = IOFactory::load($template);
 
-		// ambil semua foto site
+		/*
+    ===============================
+    ISI DATA SITE KE TEMPLATE
+    ===============================
+    */
+
+		$cellMaps = $this->db
+			->get('report_cells')
+			->result();
+
+		foreach ($cellMaps as $map) {
+
+			if (empty($map->sheet_name)) continue;
+
+			$sheet = $spreadsheet->getSheetByName($map->sheet_name);
+
+			if (!$sheet) continue;
+
+			$value = '';
+
+			if (isset($site->{$map->field_name})) {
+				$value = $site->{$map->field_name};
+			}
+
+			$sheet->setCellValue($map->cell, $value);
+		}
+
+		/*
+    ===============================
+    AMBIL SEMUA FOTO SITE
+    ===============================
+    */
+
 		$photos = $this->db
 			->select('photos.*, photo_categories.section_id')
 			->from('photos')
@@ -344,13 +390,14 @@ class Tower extends CI_Controller {
 
 		foreach ($photos as $photo) {
 
-			// ambil section (untuk sheet_name)
 			$section = $this->db
 				->get_where('section', ['id' => $photo->section_id])
 				->row();
 
 			if (!$section) continue;
-			// pilih sheet berdasarkan database
+
+			if (empty($section->sheet_name)) continue;
+
 			$sheet = $spreadsheet->getSheetByName($section->sheet_name);
 
 			if (!$sheet) continue;
@@ -369,7 +416,12 @@ class Tower extends CI_Controller {
 			$drawing->setWorksheet($sheet);
 		}
 
-		// download file
+		/*
+    ===============================
+    DOWNLOAD FILE
+    ===============================
+    */
+
 		$filename = 'REPORT_' . $site_id . '_' . date('Y-m-d_H-i-s') . '.xlsx';
 
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -379,34 +431,17 @@ class Tower extends CI_Controller {
 		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 		$writer->save('php://output');
 	}
-	private function getPhotoCell($category, $slot)
+	private function getPhotoCell($category_id, $slot)
 	{
+		$cell = $this->db
+			->select('cell')
+			->from('photo_category_cells')
+			->where('photo_category_id', $category_id)
+			->where('photo_index', $slot)
+			->get()
+			->row();
 
-		$map = [
-
-			1 => [
-				1 => 'A10',
-				2 => 'G10'
-			],
-
-			2 => [
-				1 => 'G10',
-				2 => 'I25'
-			],
-
-			3 => [
-				1 => 'E35',
-				2 => 'I35'
-			],
-
-			4 => [
-				1 => 'E45',
-				2 => 'I45'
-			]
-
-		];
-
-		return $map[$category][$slot] ?? 'A1';
+		return $cell->cell ?? 'A1';
 	}
 
 }
