@@ -157,7 +157,7 @@ class Tower extends CI_Controller {
 
 		echo json_encode($data);
 	}
-
+// update master data
 	public function update()
 	{
 		$id = $this->input->post('id');
@@ -208,8 +208,22 @@ class Tower extends CI_Controller {
 			'project_management' => $project_management,
 			'waspang_area' => $waspang_area
 		];
+		$data_photo = [
+			'site_id' => $site_id,
+		];
+		$getOldId = $this->db
+			->select('site_id')
+			->where('id', $id)
+			->get('sites')
+			->row();
+
+		if ($getOldId && $getOldId->site_id != $site_id) {
+			$data_photo['site_id'] = $site_id;
+			$this->db->update('photos', ['site_id' => $site_id], ['site_id' => $getOldId->site_id]);
+		}
 
 		$res = $this->db->update('sites', $data, ['id' => $id]);
+
 		if ($res) {
 			$this->session->set_flashdata(
 				'message',

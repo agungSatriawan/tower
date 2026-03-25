@@ -291,7 +291,7 @@
                 </div>
             </div>
         </div>
-        <div class="breadcome-area">
+        <!-- <div class="breadcome-area">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -318,5 +318,5 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
