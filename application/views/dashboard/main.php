@@ -4,33 +4,33 @@
              <div class="row">
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-15">
-                         <h4 class="text-start text-uppercase"><b>Orders</b></h4>
+                         <h4 class="text-start text-uppercase"><b>Perkuatan</b></h4>
                          <div class="row vertical-center-box vertical-center-box-tablet">
                              <div class="col-3 mar-bot-15 text-start">
-                                 <span class="badge bg-green">30% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
+                                 <span class="badge bg-green"><?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin">10,000</h2>
+                                 <h2 class="text-end no-margin"><?= $jenis->perkuatan ?? 0 ?></h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
-                             <div style="width: 78%;" class="progress-bar bg-green"></div>
+                             <div style="width: <?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>%;" class="progress-bar bg-green"></div>
                          </div>
                      </div>
                  </div>
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12" style="margin-bottom:1px;">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-30">
-                         <h4 class="text-start text-uppercase"><b>Tax Deduction</b></h4>
+                         <h4 class="text-start text-uppercase"><b>B2S</b></h4>
                          <div class="row vertical-center-box vertical-center-box-tablet">
                              <div class="text-start col-3 mar-bot-15">
-                                 <span class="badge bg-red">15% <i class="bi bi-arrow-down" aria-hidden="true"></i></span>
+                                 <span class="badge bg-green"> <?= ($total_progress->progress_pembangunan > 0) ? round(($total_progress->progress_pembangunan / ($jenis->pembangunan * $total_photo->jumlah_pembangunan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin">5,000</h2>
+                                 <h2 class="text-end no-margin"><?= $jenis->pembangunan ?? 0 ?></h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
-                             <div style="width: 38%;" class="progress-bar progress-bar-danger bg-red"></div>
+                             <div style="width: <?= ($total_progress->progress_pembangunan > 0) ? round(($total_progress->progress_pembangunan / ($jenis->pembangunan * $total_photo->jumlah_pembangunan)) * 100, 2) : 0 ?>%;" class="progress-bar progress-bar-green bg-green"></div>
                          </div>
                      </div>
                  </div>
@@ -412,5 +412,3 @@
          </div>
      </div>
  </div>
-
- 

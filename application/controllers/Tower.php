@@ -15,10 +15,15 @@ class Tower extends CI_Controller {
 	}
 	public function index()
 	{
+		$data['jenis'] = $this->Model_tower->get_jenis_pekerjaan();
+		$data['total_photo'] = $this->Model_tower->total_per_site();
+		$data['total_progress'] = $this->Model_tower->total_progress_per_pekerjaan();
+		
+		
 		$this->load->view('dashboard/header');
 		$this->load->view('dashboard/sidebar');
 		$this->load->view('dashboard/navbar');
-		$this->load->view('dashboard/main');
+		$this->load->view('dashboard/main', $data);
 		$this->load->view('dashboard/footer');
 		$this->load->view('dashboard/script');
 	}
