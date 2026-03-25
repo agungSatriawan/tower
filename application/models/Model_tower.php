@@ -59,4 +59,92 @@ FROM
   ) AS a
     ")->row();
     }
+    public function avg_progress()
+    {
+        return $this->db->query("
+            SELECT 
+            COUNT(site_id) total_site,
+            ROUND(AVG(progress),2) as avg_progress
+            FROM (
+            SELECT 
+                t.site_id,
+                t.pekerjaan,
+
+                COUNT(DISTINCT p.id) AS total_upload,
+
+                (
+                SELECT SUM(pc2.max_photo)
+                FROM section s2
+                JOIN photo_categories pc2 ON pc2.section_id = s2.id
+                WHERE s2.pekerjaan = t.pekerjaan
+                ) AS total_max,
+
+                (
+                COUNT(DISTINCT p.id) /
+                (
+                    SELECT SUM(pc2.max_photo)
+                    FROM section s2
+                    JOIN photo_categories pc2 ON pc2.section_id = s2.id
+                    WHERE s2.pekerjaan = t.pekerjaan
+                )
+                ) * 100 AS progress
+
+            FROM sites t
+            LEFT JOIN section s ON s.pekerjaan = t.pekerjaan
+            LEFT JOIN photo_categories pc ON pc.section_id = s.id
+            LEFT JOIN photos p 
+                ON p.category_id = pc.id 
+                AND p.site_id = t.site_id
+
+            GROUP BY t.site_id, t.pekerjaan
+            ) as x
+    ")->row();
+    }
+    public function site_selesai()
+    {
+        return $this->db->query("
+            SELECT
+            COUNT(site_id) total_site,
+            sum(IF(progress = 100, 1, 0)) site_selesai,
+            ROUND((sum(IF(progress = 100, 1, 0)) / COUNT(site_id)) * 100, 2) persetase_selesai
+            FROM
+            (
+                SELECT
+                t.site_id,
+                t.pekerjaan,
+                -- total upload (boleh dari photos)
+                COUNT(DISTINCT p.id) AS total_upload,
+                -- total max (HARUS dari master, tanpa duplikasi)
+                (
+                    SELECT
+                    SUM(pc2.max_photo)
+                    FROM
+                    section s2
+                    JOIN photo_categories pc2 ON pc2.section_id = s2.id
+                    WHERE
+                    s2.pekerjaan = t.pekerjaan
+                ) AS total_max,
+                (
+                    COUNT(DISTINCT p.id) / (
+                    SELECT
+                        SUM(pc2.max_photo)
+                    FROM
+                        section s2
+                        JOIN photo_categories pc2 ON pc2.section_id = s2.id
+                    WHERE
+                        s2.pekerjaan = t.pekerjaan
+                    )
+                ) * 100 AS progress
+                FROM
+                sites t
+                LEFT JOIN section s ON s.pekerjaan = t.pekerjaan
+                LEFT JOIN photo_categories pc ON pc.section_id = s.id
+                LEFT JOIN photos p ON p.category_id = pc.id
+                AND p.site_id = t.site_id
+                GROUP BY
+                t.site_id,
+                t.pekerjaan
+            ) c
+    ")->row();
+    }
 }

@@ -10,7 +10,7 @@
                                  <span class="badge bg-green"><?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin"><?= $jenis->perkuatan ?? 0 ?></h2>
+                                 <h2 class="text-end no-margin"><?= $jenis->perkuatan ?? 0 ?> Site</h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
@@ -26,7 +26,7 @@
                                  <span class="badge bg-green"> <?= ($total_progress->progress_pembangunan > 0) ? round(($total_progress->progress_pembangunan / ($jenis->pembangunan * $total_photo->jumlah_pembangunan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin"><?= $jenis->pembangunan ?? 0 ?></h2>
+                                 <h2 class="text-end no-margin"><?= $jenis->pembangunan ?? 0 ?> Site</h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
@@ -36,33 +36,33 @@
                  </div>
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-30">
-                         <h4 class="text-start text-uppercase"><b>Revenue</b></h4>
+                         <h4 class="text-start text-uppercase"><b>AVG PROGRESS</b></h4>
                          <div class="row vertical-center-box vertical-center-box-tablet">
                              <div class="text-start col-3 mar-bot-15">
-                                 <span class="badge bg-blue">50% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
+                                 <span class="badge bg-blue"><?= $avg_progress->avg_progress ?? 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin">$70,000</h2>
+                                 <h2 class="text-end no-margin"><?= $avg_progress->total_site ?> Site</h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
-                             <div style="width: 60%;" class="progress-bar bg-blue"></div>
+                             <div style="width: <?= $avg_progress->avg_progress ?? 0 ?>%;" class="progress-bar bg-blue"></div>
                          </div>
                      </div>
                  </div>
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-30">
-                         <h4 class="text-start text-uppercase"><b>Yearly Sales</b></h4>
+                         <h4 class="text-start text-uppercase"><b>Completed</b></h4>
                          <div class="row vertical-center-box vertical-center-box-tablet">
                              <div class="text-start col-3 mar-bot-15">
-                                 <span class="badge bg-purple">80% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
+                                 <span class="badge bg-purple"><?= $site_selesai->persetase_selesai ?? 0 ?>% <i class="bi bi-arrow-down" aria-hidden="true"></i></span>
                              </div>
                              <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin">$100,000</h2>
+                                 <h2 class="text-end no-margin"><?= $site_selesai->site_selesai ?? 0 ?> Site</h2>
                              </div>
                          </div>
                          <div class="progress progress-mini">
-                             <div style="width: 60%;" class="progress-bar bg-purple"></div>
+                             <div style="width: <?= $site_selesai->persetase_selesai ?? 0 ?>%;" class="progress-bar bg-purple"></div>
                          </div>
                      </div>
                  </div>

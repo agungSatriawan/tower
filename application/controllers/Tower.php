@@ -18,8 +18,9 @@ class Tower extends CI_Controller {
 		$data['jenis'] = $this->Model_tower->get_jenis_pekerjaan();
 		$data['total_photo'] = $this->Model_tower->total_per_site();
 		$data['total_progress'] = $this->Model_tower->total_progress_per_pekerjaan();
-		
-		
+		$data['avg_progress'] = $this->Model_tower->avg_progress();
+		$data['site_selesai'] = $this->Model_tower->site_selesai();
+
 		$this->load->view('dashboard/header');
 		$this->load->view('dashboard/sidebar');
 		$this->load->view('dashboard/navbar');
@@ -300,7 +301,22 @@ class Tower extends CI_Controller {
 				'file_path' => $filename
 			];
 
-			$this->db->replace('photos', $data);
+			$cek = $this->db->get_where('photos', [
+				'site_id' => $site_id,
+				'category_id' => $category_id,
+				'slot' => $slot
+			])->row();
+
+			if ($cek) {
+				// update
+				$this->db->where('id', $cek->id);
+				$this->db->update('photos', [
+					'file_path' => $filename
+				]);
+			} else {
+				// insert
+				$this->db->insert('photos', $data);
+			}
 
 			echo json_encode(['status' => 'success']);
 		} else {
