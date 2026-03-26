@@ -20,6 +20,7 @@ class Tower extends CI_Controller {
 		$data['total_progress'] = $this->Model_tower->total_progress_per_pekerjaan();
 		$data['avg_progress'] = $this->Model_tower->avg_progress();
 		$data['site_selesai'] = $this->Model_tower->site_selesai();
+		$data['chart_b2s'] = $this->Model_tower->get_chart('B2S');
 
 		$this->load->view('dashboard/header');
 		$this->load->view('dashboard/sidebar');

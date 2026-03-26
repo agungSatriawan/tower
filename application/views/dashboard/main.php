@@ -94,7 +94,7 @@
                              </div>
                          </div>
                      </div>
-                     <div id="curved-line-chart" class="flot-chart-sts flot-chart curved-chart-statistic"></div>
+                     <div id="chartProgress" class="flot-chart-sts flot-chart curved-chart-statistic"></div>
                  </div>
              </div>
              <div class="col-lg-3 col-md-3 col-sm-3 col-12">
@@ -412,3 +412,42 @@
          </div>
      </div>
  </div>
+ <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+ <script>
+     var options = {
+         chart: {
+             type: 'bar',
+             height: 350
+         },
+         series: [{
+             name: 'Progress',
+             data: <?= json_encode(array_column($chart_b2s, 'progress_percent')) ?>
+         }],
+         xaxis: {
+             categories: <?= json_encode(array_column($chart_b2s, 'tahap')) ?>
+         },
+         plotOptions: {
+             bar: {
+                 horizontal: true,
+                 borderRadius: 6
+             }
+         },
+         dataLabels: {
+             enabled: true,
+             formatter: function(val) {
+                 return val.toFixed(1) + "%";
+             }
+         },
+         colors: ['#00E396'],
+         tooltip: {
+             y: {
+                 formatter: function(val) {
+                     return val.toFixed(1) + "%";
+                 }
+             }
+         }
+     };
+
+     var chart = new ApexCharts(document.querySelector("#chartProgress"), options);
+     chart.render();
+ </script>

@@ -44,19 +44,19 @@ class Model_tower extends CI_Model
     {
         return $this->db->query("
      SELECT
-  SUM(CASE WHEN pekerjaan = 'B2S' THEN 1 ELSE 0 END) AS progress_pembangunan,
-  SUM(CASE WHEN pekerjaan = 'perkuatan' THEN 1 ELSE 0 END) AS progress_perkuatan
-FROM
-  (
-    SELECT
-      section.pekerjaan,
-      photos.site_id,
-      photos.file_path
-    FROM
-      photos
-      LEFT JOIN photo_categories ON photo_categories.id = photos.category_id
-      LEFT JOIN section ON section.id = photo_categories.section_id
-  ) AS a
+        SUM(CASE WHEN pekerjaan = 'B2S' THEN 1 ELSE 0 END) AS progress_pembangunan,
+        SUM(CASE WHEN pekerjaan = 'perkuatan' THEN 1 ELSE 0 END) AS progress_perkuatan
+        FROM
+        (
+            SELECT
+            section.pekerjaan,
+            photos.site_id,
+            photos.file_path
+            FROM
+            photos
+            LEFT JOIN photo_categories ON photo_categories.id = photos.category_id
+            LEFT JOIN section ON section.id = photo_categories.section_id
+        ) AS a
     ")->row();
     }
     public function avg_progress()
@@ -146,5 +146,32 @@ FROM
                 t.pekerjaan
             ) c
     ")->row();
+    }
+    public function get_chart($pekerjaan)
+    {
+        return $this->db->query("
+            SELECT 
+                s.pekerjaan,
+                pc.name AS tahap,
+
+                -- total max = max_photo × jumlah site
+                SUM(pc.max_photo) * COUNT(DISTINCT t.site_id) AS total_max,
+
+                COUNT(p.id) AS total_upload,
+
+                (COUNT(p.id) / (SUM(pc.max_photo) * COUNT(DISTINCT t.site_id))) * 100 AS progress_percent
+
+                FROM sites t
+                JOIN section s ON s.pekerjaan = t.pekerjaan
+                JOIN photo_categories pc ON pc.section_id = s.id
+
+                LEFT JOIN photos p 
+                ON p.category_id = pc.id 
+                AND p.site_id = t.site_id
+
+                WHERE s.pekerjaan = '".$pekerjaan."'
+
+                GROUP BY pc.id, pc.name, s.pekerjaan;
+    ")->result_array();
     }
 }
