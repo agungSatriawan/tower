@@ -147,31 +147,51 @@ class Model_tower extends CI_Model
             ) c
     ")->row();
     }
-    public function get_chart($pekerjaan)
+    public function get_chart()
     {
-        return $this->db->query("
-            SELECT 
-                s.pekerjaan,
-                pc.name AS tahap,
-
-                -- total max = max_photo × jumlah site
-                SUM(pc.max_photo) * COUNT(DISTINCT t.site_id) AS total_max,
-
-                COUNT(p.id) AS total_upload,
-
-                (COUNT(p.id) / (SUM(pc.max_photo) * COUNT(DISTINCT t.site_id))) * 100 AS progress_percent
-
-                FROM sites t
-                JOIN section s ON s.pekerjaan = t.pekerjaan
-                JOIN photo_categories pc ON pc.section_id = s.id
-
-                LEFT JOIN photos p 
-                ON p.category_id = pc.id 
-                AND p.site_id = t.site_id
-
-                WHERE s.pekerjaan = '".$pekerjaan."'
-
-                GROUP BY pc.id, pc.name, s.pekerjaan;
-    ")->result_array();
+        return $this->db->query(
+        "
+            SELECT
+            a.*,
+            b.total_site,
+            (a.jumlah_slot * b.total_site) total_slot,
+            COALESCE(c.progress, 0) progress,
+            ROUND((COALESCE(c.progress, 0) / (a.jumlah_slot * b.total_site)) * 100, 2) persentase
+            FROM
+            (
+            SELECT DISTINCT
+            section.id,
+            section.pekerjaan,
+            section.`name` tahap,
+            SUM(photo_categories.max_photo) jumlah_slot
+            FROM
+            section
+            LEFT JOIN photo_categories ON photo_categories.section_id = section.id
+            GROUP BY
+            section.pekerjaan,
+            section.`name`
+            ORDER BY
+            section.id
+            ) a
+            LEFT JOIN (SELECT sites.pekerjaan, COUNT(sites.id) total_site FROM sites GROUP BY pekerjaan) b ON b.pekerjaan = a.pekerjaan
+            LEFT JOIN (
+            SELECT
+            section.pekerjaan,
+            section.`name` tahap,
+            COUNT(DISTINCT photos.file_path) progress
+            FROM
+            photos
+            LEFT JOIN photo_categories ON photo_categories.id = photos.category_id
+            LEFT JOIN section ON section.id = photo_categories.section_id
+            GROUP BY
+            section.pekerjaan,
+            section.`name`
+            ORDER BY
+            section.id
+            ) c ON c.pekerjaan = a.pekerjaan
+            AND c.tahap = a.tahap
+            GROUP BY
+            a.id
+    ");
     }
 }
