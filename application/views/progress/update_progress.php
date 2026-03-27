@@ -13,7 +13,7 @@
                         <?= $this->session->flashdata('message') ?>
                         <div class="datatable-dashv1-list custom-datatable-overright table-responsive">
 
-                            <table class="table tabledata table-bordered table-hover table-striped">
+                            <table class="table tabledata table-bordered table-hover table-striped table-sm">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -25,6 +25,7 @@
                                         <th>Latitude</th>
                                         <th>Longitude</th>
                                         <th>Progress Terakhir</th>
+                                        <th>Persentase</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,7 +40,8 @@
                                             <td><?= $lm['alamat'] ?></td>
                                             <td><?= $lm['latitude'] ?></td>
                                             <td><?= $lm['longitude'] ?></td>
-                                            <td><?= $lm['progress'] ?></td>
+                                            <td><?= $lm['last_progress'] ?></td>
+                                            <td><?= $lm['persentase'] ?>%</td>
                                         </tr>
                                         <?php $no++ ?>
                                     <?php endforeach; ?>

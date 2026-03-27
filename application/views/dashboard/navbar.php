@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="logo-pro">
-                    <a href="index.html"><img class="main-logo" src="<?= base_url('assets/') ?>img/logo/logo.png" alt="" /></a>
+                    <a href="index.html"><img class="main-logo" src="<?= base_url('assets/') ?>img/logo/logo.png" alt="" width="150px" />Dashboard BAST</a>
                 </div>
             </div>
         </div>

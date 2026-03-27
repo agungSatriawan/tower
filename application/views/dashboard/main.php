@@ -1,23 +1,7 @@
- <div class="section-admin container-fluid">
+ <div class="section-admin container-fluid mt-3">
      <div class="row admin text-center">
          <div class="col-md-12">
              <div class="row">
-                 <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                     <div class="admin-content analysis-progrebar-ctn res-mg-t-15">
-                         <h4 class="text-start text-uppercase"><b>Perkuatan</b></h4>
-                         <div class="row vertical-center-box vertical-center-box-tablet">
-                             <div class="col-3 mar-bot-15 text-start">
-                                 <span class="badge bg-green"><?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
-                             </div>
-                             <div class="col-9 cus-gh-hd-pro">
-                                 <h2 class="text-end no-margin"><?= $jenis->perkuatan ?? 0 ?> Site</h2>
-                             </div>
-                         </div>
-                         <div class="progress progress-mini">
-                             <div style="width: <?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>%;" class="progress-bar bg-green"></div>
-                         </div>
-                     </div>
-                 </div>
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12" style="margin-bottom:1px;">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-30">
                          <h4 class="text-start text-uppercase"><b>B2S</b></h4>
@@ -34,6 +18,23 @@
                          </div>
                      </div>
                  </div>
+                 <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                     <div class="admin-content analysis-progrebar-ctn res-mg-t-15">
+                         <h4 class="text-start text-uppercase"><b>Perkuatan</b></h4>
+                         <div class="row vertical-center-box vertical-center-box-tablet">
+                             <div class="col-3 mar-bot-15 text-start">
+                                 <span class="badge bg-green"><?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>% <i class="bi bi-arrow-up" aria-hidden="true"></i></span>
+                             </div>
+                             <div class="col-9 cus-gh-hd-pro">
+                                 <h2 class="text-end no-margin"><?= $jenis->perkuatan ?? 0 ?> Site</h2>
+                             </div>
+                         </div>
+                         <div class="progress progress-mini">
+                             <div style="width: <?= ($total_progress->progress_perkuatan > 0) ? round(($total_progress->progress_perkuatan / ($jenis->perkuatan * $total_photo->jumlah_perkuatan)) * 100, 2) : 0 ?>%;" class="progress-bar bg-green"></div>
+                         </div>
+                     </div>
+                 </div>
+
                  <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                      <div class="admin-content analysis-progrebar-ctn res-mg-t-30">
                          <h4 class="text-start text-uppercase"><b>AVG PROGRESS</b></h4>
@@ -73,23 +74,18 @@
  <div class="product-sales-area mg-tb-30">
      <div class="container-fluid">
          <div class="row">
-             <div class="col-lg-9 col-md-9 col-sm-9 col-12">
+             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                  <div class="product-sales-chart">
                      <div class="portlet-title">
                          <div class="row">
                              <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                  <div class="caption pro-sl-hd">
-                                     <span class="caption-subject text-uppercase"><b>Product Sales</b></span>
+                                     <span class="caption-subject text-uppercase"><b>Kelengkapan BAST</b></span>
                                  </div>
                              </div>
                              <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                  <div class="actions graph-rp">
-                                     <div class="btn-group" data-bs-toggle="buttons">
-                                         <label class="btn btn-grey active">
-                                             <input type="radio" name="options" class="toggle" id="option1" checked="">Today</label>
-                                         <label class="btn btn-grey">
-                                             <input type="radio" name="options" class="toggle" id="option2">Week</label>
-                                     </div>
+
                                  </div>
                              </div>
                          </div>
@@ -453,6 +449,8 @@
          yAxis.dataFields.category = "tahap";
          yAxis.renderer.grid.template.location = 0;
          yAxis.renderer.labels.template.fontSize = 10;
+         yAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+         console.log(yAxis.renderer.labels.template)
          yAxis.renderer.minGridDistance = 10;
          yAxis.renderer.inversed = true;
          var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
@@ -461,7 +459,7 @@
          var series = chart.series.push(new am4charts.ColumnSeries());
          series.dataFields.valueX = "persentase";
          series.dataFields.categoryY = "tahap";
-         series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
+         series.columns.template.tooltipText = "{categoryY}: [bold]{valueX.formatNumber('#.00')}%[/]";
          series.columns.template.strokeWidth = 0;
          series.columns.template.adapter.add("fill", function(fill, target) {
              if (target.dataItem) {
@@ -523,8 +521,8 @@
              });
          }
 
-         addRange("B2S", "SKOM", "ATP", chart.colors.getIndex(0));
          addRange("PERKUATAN", "TEAM & TOOLS", "DOKUMENTASI ATP", chart.colors.getIndex(1));
+         addRange("B2S", "SKOM", "ATP", chart.colors.getIndex(0));
 
 
          chart.cursor = new am4charts.XYCursor();
@@ -535,6 +533,7 @@
          legend.scrollable = true;
          legend.valign = "top";
          legend.reverseOrder = true;
+         legend.labels.template.fill = am4core.color("#ffffff");
 
          chart.legend = legend;
          legend.data = legendData;

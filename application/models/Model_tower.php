@@ -2,9 +2,79 @@
 class Model_tower extends CI_Model
 {
     public function loadMaster(){
-      
-        $result = $this->db->get('sites');
-        return $result->result_array();
+
+        // $result = $this->db->get('sites');
+        // return $result->result_array();
+
+        return $this->db->query("
+     SELECT
+            a.*,
+            b.site_id,
+            (a.jumlah_slot * b.total_site) total_slot,
+            COALESCE(c.progress, 0) progress,
+            ROUND((COALESCE(c.progress, 0) / (a.jumlah_slot * b.total_site)) * 100, 2) persentase,
+            b.site_name_tenant,
+            b.type_tower,
+            b.height,
+            b.alamat,
+            b.latitude,
+            b.longitude,
+            b.progress last_progress,
+            b.site_name_po,
+            b.project_id
+            FROM
+            (
+            SELECT DISTINCT
+            section.id,
+            section.pekerjaan,
+            section.`name` tahap,
+            SUM(photo_categories.max_photo) jumlah_slot
+            FROM
+            section
+            LEFT JOIN photo_categories ON photo_categories.section_id = section.id
+            GROUP BY
+            section.pekerjaan
+            ORDER BY
+            section.id
+            ) a
+            LEFT JOIN (
+            SELECT 
+            sites.id,
+            sites.site_id,
+            sites.project_id,
+            sites.site_name_tenant,
+            sites.type_tower,
+            sites.height,
+            sites.alamat,
+            sites.latitude,
+            sites.longitude,
+            sites.progress,
+            sites.pekerjaan, 
+            sites.site_name_po,
+            COUNT(sites.id) total_site 
+            FROM 
+            sites 
+            GROUP BY 
+            sites.id
+            ) b ON b.pekerjaan = a.pekerjaan
+            LEFT JOIN (
+            SELECT
+            photos.site_id,
+            section.pekerjaan,
+            section.`name` tahap,
+            COUNT(DISTINCT photos.file_path) progress
+            FROM
+            photos
+            LEFT JOIN photo_categories ON photo_categories.id = photos.category_id
+            LEFT JOIN section ON section.id = photo_categories.section_id
+            GROUP BY
+            photos.site_id
+            ORDER BY
+            section.id
+            ) c ON c.pekerjaan = a.pekerjaan
+            AND c.site_id = b.site_id
+            GROUP BY b.id
+    ")->result_array();
     }
 
     public function save_image($siteId, $imageName)

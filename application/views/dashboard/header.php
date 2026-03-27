@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Dashboard V.1 | Nalika - Material Admin Template</title>
+  <title>Dashboard BAST</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf_token_name" content="<?= $this->security->get_csrf_token_name() ?>">

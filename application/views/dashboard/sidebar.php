@@ -4,21 +4,21 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="<?= base_url('assets/') ?>img/logo/logo.png" alt="" /></a>
-                <strong><img src="<?= base_url('assets/') ?>img/logo/logosn.png" alt="" /></strong>
+                <a href="<?= base_url() ?>"><img class="main-logo" src="<?= base_url('assets/') ?>img/logo/logo.png" alt="" width="150px" /></a>
+                <strong><img src="<?= base_url('assets/') ?>img/logo/logosn.png" alt=""  />BAST</strong>
             </div>
             <div class="nalika-profile">
                 <div class="profile-dtl">
                     <a href="#"><img src="https://avatars.githubusercontent.com/u/3451398?s=200&v=4" alt="Aigars Silkalns" /></a>
-                    <h2>Aigars <span class="min-dtn">Silkalns</span></h2>
+                    <h2>Admin <span class="min-dtn"></span></h2>
                 </div>
-                <div class="profile-social-dtl">
+                <!-- <div class="profile-social-dtl">
                     <ul class="dtl-social">
                         <li><a href="#"><i class="bi bi-facebook"></i></a></li>
                         <li><a href="#"><i class="bi bi-twitter-x"></i></a></li>
                         <li><a href="#"><i class="bi bi-linkedin"></i></a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
