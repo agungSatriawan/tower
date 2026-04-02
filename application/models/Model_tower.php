@@ -7,16 +7,20 @@ class Model_tower extends CI_Model
         // return $result->result_array();
 
         return $this->db->query("
-     SELECT
+   SELECT
             a.*,
             b.site_id,
+            b.id id_site,
             (a.jumlah_slot * b.total_site) total_slot,
             COALESCE(c.progress, 0) progress,
             ROUND((COALESCE(c.progress, 0) / (a.jumlah_slot * b.total_site)) * 100, 2) persentase,
             b.site_name_tenant,
+            b.tenant,
             b.type_tower,
             b.height,
             b.alamat,
+            b.`start`,
+            b.done,
             b.latitude,
             b.longitude,
             b.progress last_progress,
@@ -43,9 +47,12 @@ class Model_tower extends CI_Model
             sites.site_id,
             sites.project_id,
             sites.site_name_tenant,
+            sites.tenant,
             sites.type_tower,
             sites.height,
             sites.alamat,
+            sites.`start`,
+            sites.done,
             sites.latitude,
             sites.longitude,
             sites.progress,

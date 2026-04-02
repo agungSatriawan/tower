@@ -31,7 +31,7 @@
                                 <tbody>
                                     <?php $no = 1; ?>
                                     <?php foreach ($loadMaster as $lm) : ?>
-                                        <tr class="row-site" data-id="<?= $lm['id'] ?>" data-project="<?= $lm['project_id'] ?>" data-site="<?= $lm['site_id'] ?>" data-name="<?= $lm['site_name_po'] ?>" data-pekerjaan="<?= $lm['pekerjaan'] ?>">
+                                        <tr class="row-site" data-id="<?= $lm['id_site'] ?>" data-project="<?= $lm['project_id'] ?>" data-site="<?= $lm['site_id'] ?>" data-name="<?= $lm['site_name_po'] ?>" data-pekerjaan="<?= $lm['pekerjaan'] ?>">
                                             <td><?= $no ?></td>
                                             <td><?= $lm['site_name_tenant'] ?></td>
                                             <td><?= $lm['site_id'] ?></td>
