@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 26/03/2026 10:14:01
+ Date: 02/04/2026 07:11:57
 */
 
 SET NAMES utf8mb4;
@@ -166,7 +166,7 @@ CREATE TABLE `photos`  (
   `date_created` datetime NULL DEFAULT NULL,
   `date_modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 190 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 198 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of photos
@@ -360,6 +360,14 @@ INSERT INTO `photos` VALUES (186, 'TGR292', '3', '3', 'siteTGR292_cat3_slot3.jpg
 INSERT INTO `photos` VALUES (187, 'TGR292', '3', '4', 'siteTGR292_cat3_slot4.jpg', NULL, NULL);
 INSERT INTO `photos` VALUES (188, 'TGR292', '3', '5', 'siteTGR292_cat3_slot5.jpg', NULL, NULL);
 INSERT INTO `photos` VALUES (189, 'TGR292', '3', '6', 'siteTGR292_cat3_slot6.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (190, 'TGR292', '6', '1', 'siteTGR292_cat6_slot1.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (191, 'TGR292', '6', '2', 'siteTGR292_cat6_slot2.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (192, 'TGR292', '6', '3', 'siteTGR292_cat6_slot3.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (193, 'TGR292', '6', '4', 'siteTGR292_cat6_slot4.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (194, 'TGR292', '4', '1', 'siteTGR292_cat4_slot1.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (195, 'TGR292', '6', '5', 'siteTGR292_cat6_slot5.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (196, 'TGR292', '6', '6', 'siteTGR292_cat6_slot6.jpg', NULL, NULL);
+INSERT INTO `photos` VALUES (197, 'TGR294', '8', '1', 'siteTGR294_cat8_slot1.jpg', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for report_cells
